@@ -41,3 +41,24 @@ print(device)
 print(cpu)
 print(gpu)
 print(tensor)
+
+"""장치 변환"""
+cpu = torch.FloatTensor([1,2,3])
+gpu = cpu.cuda()
+gpu2cpu = gpu.cpu()
+cpu2gpu = cpu.to("cuda")
+
+"""넘파이 배열의 텐서 변환"""
+import numpy as np
+
+ndarray = np.array([1,2,3],dtype = np.uint8)
+print(torch.tensor(ndarray))
+print(torch.Tensor(ndarray))
+print(torch.from_numpy(ndarray))
+
+"""텐서의 넘파이 배열 변환"""
+#추론된 결과를 후처리하거나 결과값 활용 시
+
+tensor = torch.cuda.FloatTensor([1,2,3])
+ndarray = tensor.detech().cpu().numpy()
+
