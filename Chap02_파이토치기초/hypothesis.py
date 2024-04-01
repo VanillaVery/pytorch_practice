@@ -23,3 +23,7 @@ plt.show()
 
 #%%
 #unpaired t-test
+statistics, pvalue = stats.ttest_ind(man_height,woman_height,equal_var=True)
+#%%
+#손실 함수: 단일 샘플의 실젯값과 예측값의 차이가 발생했을 때 오차가 얼마인지 계산하는 함수
+
