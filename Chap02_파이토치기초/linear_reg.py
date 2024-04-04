@@ -63,3 +63,15 @@ bias = torch.zeros(1,requires_grad=True)
 learning_rate=0.001
 
 optimizer = optim.SGD([weight,bias],lr=learning_rate)
+
+for epoch in range(10000):
+    hypothesis = weight*x + bias
+    cost = torch.mean((hypothesis - y)**2)
+
+    #이건 뭘까
+    optimizer.zero_grad()
+    cost.backward()
+    optimizer.step()
+
+    if (epoch +1)%1000 == 0:
+        print(f"Epoch:{epoch+1:4d},Weight:{weight.item():.3f},Bias:{bias.item():.3f},Cost:{cost:.3f}") 
