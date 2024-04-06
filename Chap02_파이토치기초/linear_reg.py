@@ -72,6 +72,23 @@ for epoch in range(10000):
     optimizer.zero_grad()
     cost.backward()
     optimizer.step()
-
+    
     if (epoch +1)%1000 == 0:
         print(f"Epoch:{epoch+1:4d},Weight:{weight.item():.3f},Bias:{bias.item():.3f},Cost:{cost:.3f}") 
+
+#%%
+#zero_grad(), cost.backward(), optimizer.step()
+#직접 가중치에 대한 기울기와 값을 확인해 보자 
+for epoch in range(10):
+    hypothesis = weight*x + bias
+    cost = torch.mean((hypothesis - y)**2)
+
+    print(f"Epoch : {epoch+1:4d}")
+    print(f"step[epoch] :Gradent:{weight.grad}, Weight:{weight.item():.5f}")
+    optimizer.zero_grad()
+    print(f"step[zero_grad] :Gradent:{weight.grad}, Weight:{weight.item():.5f}")
+    cost.backward()
+    print(f"step[backward] :Gradent:{weight.grad}, Weight:{weight.item():.5f}")
+    optimizer.step()
+    print(f"step[step] :Gradent:{weight.grad}, Weight:{weight.item():.5f}")
+    
