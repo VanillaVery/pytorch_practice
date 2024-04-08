@@ -50,3 +50,40 @@ train_y = torch.FloatTensor([
     [0.1,1.5],[1,2.8],[1.9,4.1],[2.8,5.4],[3.7,6.7],[4.6,8]
 ])
 
+#%%
+#데이터세트와 데이터로더
+train_dataset = TensorDataset(train_x, train_y) #여러개의 값 입력 가능
+train_dataloader = DataLoader(train_dataset, 
+                              batch_size = 2, 
+                              shuffle = True, 
+                              drop_last = True) #배치 크기에 맞지 않는 배치 제거
+
+
+model = nn.Linear(2,2,bias=True)
+criterion = nn.MSELoss()
+optimizer = optim.SGD(model.parameters(),lr=0.001)
+
+#%%
+# 데이터로더 적용
+for epoch in range(20000):
+    cost = 0.0 #에포크마다 오차를 다시 계산해야 하기 때문에 초기화
+    
+    for batch in train_dataloader:
+        x, y = batch
+        output = model(x)
+
+        loss = criterion(output, y)
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        cost += loss # 오차에 손실을 누적
+    
+    cost = cost / len(train_dataloader) # 오차 평균
+
+    if (epoch+1) % 1000 == 0:
+        print(f"Epoch : {epoch+1:4d}, Model : {list(model.parameters())}, Cost : {cost:.3f}")
+
+# 이렇게 데이터로더를 활용하면, 자여느럽게 배치 구조로 코드가 변경
+# 이 경우 학습 데이터의 구조나 형태가 변경되더라도, 실제 학습에 사용되는 코드는 변경되지 않아서 각 모듈에 집중할 수 있음
